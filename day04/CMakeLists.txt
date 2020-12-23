@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
-project(AOC_2020_day04)
 
-add_executable("${PROJECT_NAME}" day04pt2.cpp)
+include_directories(${PROJECT_SOURCE_DIR}/helper_functions)
+link_directories(${PROJECT_SOURCE_DIR}/helper_functions)
+
+add_executable(${PROJECT_NAME}_day04pt1 day04pt1.cpp)
+target_link_libraries(${PROJECT_NAME}_day04pt1 helper_functions)
+
+add_executable(${PROJECT_NAME}_day04pt2 day04pt2.cpp)
+target_link_libraries(${PROJECT_NAME}_day04pt2 helper_functions)
 

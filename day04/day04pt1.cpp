@@ -14,7 +14,7 @@ vector<string> input_to_string_vector_delim(string filename, char delim_start, i
 
 int main(){
 
-    vector<string> data = input_to_string_vector_delim("../day04input.txt", 0, 0, '\n', 0);
+    vector<string> data = input_to_string_vector_delim("../../data/day04input.txt", 0, 0, '\n', 0);
 
     int valid_passports = 0;
 

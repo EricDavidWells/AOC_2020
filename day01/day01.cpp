@@ -11,7 +11,7 @@ vector<int> input_to_vector(string filename);
 
 int main(){
 
-    vector<int> data = input_to_vector("/home/rico/Documents/AOC_2020/day01/day01input.txt");
+    vector<int> data = input_to_vector("../../data/day01input.txt");
     
     // part 1
     int answer1;

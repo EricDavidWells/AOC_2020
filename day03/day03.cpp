@@ -3,11 +3,12 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include "helper_functions.h"
 
 using namespace std;
 
 // function declarations
-vector<string> input_to_string_vector_delim(string filename, char delim_start, int delim_start_skip, char delim_end, int delim_end_skip);
+// vector<string> input_to_string_vector_delim(string filename, char delim_start, int delim_start_skip, char delim_end, int delim_end_skip);
 
 int tree_hit_counter(vector<string> data, int right_increment, int down_increment){
     
@@ -29,7 +30,7 @@ int tree_hit_counter(vector<string> data, int right_increment, int down_incremen
 
 int main(){
 
-    vector<string> data = input_to_string_vector_delim("../day03input.txt", 0, 0, '\n', 0);
+    vector<string> data = input_to_string_vector_delim("../../data/day03input.txt", 0, 0, '\n', 0);
 
     // part 1
     int trees_hit = 0;
@@ -38,7 +39,7 @@ int main(){
     int down_increment = 1;
 
     trees_hit = tree_hit_counter(data, right_increment, down_increment);
-    cout << "Trees hit: " << trees_hit;
+    cout << "Trees hit: " << trees_hit << endl;
 
     // part 2
 
@@ -52,43 +53,7 @@ int main(){
                 trees_hit_2_total *= tree_hit_counter(data, right_slopes[i], down_slopes[i]);
     }
 
-    cout << "Trees hit: " << trees_hit_2_total;
+    cout << "Trees hit multiplication: " << trees_hit_2_total;
 
     return 0;
-}
-
-vector<string> input_to_string_vector_delim(string filename, char delim_start, int delim_start_skip, char delim_end, int delim_end_skip){
-    ifstream file;
-    file.open(filename);
-
-    vector<string> data;
-
-    if (file.is_open()){
-        
-        string line;
-
-        while(std::getline(file, line)){
-            
-            int start_ind = 0;
-
-            if (delim_start != 0){
-                start_ind = line.find(delim_start, start_ind)+1;
-                for (int i=0; i<delim_start_skip; i++){
-                    start_ind = line.find(delim_start, start_ind)+1;
-                }
-            }
-
-            int end_ind = line.find(delim_end);
-            for (int i=0; i<delim_end_skip; i++){
-                end_ind = line.find(delim_start, start_ind);
-            }
-
-            data.push_back(line.substr(start_ind, end_ind-start_ind));
-        }
-    }
-    else {
-        cout << "file not opened" << endl;
-    }
-
-    return data;
 }

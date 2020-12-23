@@ -3,18 +3,17 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include "helper_functions.h"
 
 using namespace std;
 
-// function declarations
-vector<string> input_to_string_vector_delim(string filename, char delim_start, int delim_start_skip, char delim_end, int delim_end_skip);
 
 int main(){
 
-    vector<string> min_char = input_to_string_vector_delim("/home/rico/Documents/AOC_2020/day02/day02input.txt", 0, 0, '-', 0);
-    vector<string> max_char = input_to_string_vector_delim("/home/rico/Documents/AOC_2020/day02/day02input.txt", '-', 0, ' ', 0);
-    vector<string> char_list = input_to_string_vector_delim("/home/rico/Documents/AOC_2020/day02/day02input.txt", ' ', 0, ':', 0);
-    vector<string> passwords = input_to_string_vector_delim("/home/rico/Documents/AOC_2020/day02/day02input.txt", ' ', 1, '\n', 0);
+    vector<string> min_char = input_to_string_vector_delim("../../data/day02input.txt", 0, 0, '-', 0);
+    vector<string> max_char = input_to_string_vector_delim("../../data/day02input.txt", '-', 0, ' ', 0);
+    vector<string> char_list = input_to_string_vector_delim("../../data/day02input.txt", ' ', 0, ':', 0);
+    vector<string> passwords = input_to_string_vector_delim("../../data/day02input.txt", ' ', 1, '\n', 0);
 
     // part 1
     int valid_passwords = 0;
@@ -53,40 +52,4 @@ int main(){
     cout << "Valid Passwords Part 2: " << valid_passwords_2 << endl;
 
     return 0;
-}
-
-vector<string> input_to_string_vector_delim(string filename, char delim_start, int delim_start_skip, char delim_end, int delim_end_skip){
-    ifstream file;
-    file.open(filename);
-
-    vector<string> data;
-
-    if (file.is_open()){
-        
-        string line;
-
-        while(std::getline(file, line)){
-            
-            int start_ind = 0;
-
-            if (delim_start != 0){
-                start_ind = line.find(delim_start, start_ind)+1;
-                for (int i=0; i<delim_start_skip; i++){
-                    start_ind = line.find(delim_start, start_ind)+1;
-                }
-            }
-
-            int end_ind = line.find(delim_end);
-            for (int i=0; i<delim_end_skip; i++){
-                end_ind = line.find(delim_start, start_ind);
-            }
-
-            data.push_back(line.substr(start_ind, end_ind-start_ind));
-        }
-    }
-    else {
-        cout << "file not opened" << endl;
-    }
-
-    return data;
 }

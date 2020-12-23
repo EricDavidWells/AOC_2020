@@ -16,7 +16,7 @@ string get_value_string_from_line(string line, string label);
 int main(){
 
     ifstream file;
-    file.open("../day04input.txt");
+    file.open("../../data/day04input.txt");
     string line;
 
     vector<string> passport_lines;
