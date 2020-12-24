@@ -8,6 +8,12 @@
 using namespace std;
 
 vector<string> input_to_string_vector_delim(string filename, char delim_start, int delim_start_skip, char delim_end, int delim_end_skip){
+    // reads advent of code style input into a vector of lines.  included optional deliminator start character, number of start characters to skip
+    // deliminator end character, and number of end characters to skip.  This was to pull only certain information out into vectors in a single line
+    // however it may be easier to just bring the entire line through and than use sscanf() to read them into variables, since each input is always so different
+
+    // to read into just lines: delim_start = 0, delim_start_skip = 0, delim_end = '\n', delim_end_skip = 0
+
     ifstream file;
     file.open(filename);
 
@@ -44,6 +50,8 @@ vector<string> input_to_string_vector_delim(string filename, char delim_start, i
 }
 
 vector<string> string_split(string line, char delim){
+
+    // splits a string into vector of substrings based on the delimiter given
 
     vector<string> data;
 

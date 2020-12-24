@@ -8,5 +8,5 @@ add_subdirectory ("day04")
 add_subdirectory ("day05")
 add_subdirectory ("day06")
 add_subdirectory ("day07")
+add_subdirectory ("day08")
 add_subdirectory("helper_functions")
-

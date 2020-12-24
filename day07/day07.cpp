@@ -13,14 +13,13 @@ using namespace std;
 int main(){
 
 
-    // vector<string> data = input_to_string_vector_delim("../../data/day07input_example1.txt", 0, 0, '\n', 0);
     vector<string> data = input_to_string_vector_delim("../../data/day07input.txt", 0, 0, '\n', 0);
 
     vector<string> parent_bag_names;
-
     vector<vector<string>> child_bag_names;
     vector<vector<int>> child_bag_counts; 
 
+    // parse data
     for (int i=0; i<data.size(); i++){
         
         vector<string> lines = string_split(data.at(i), "contain");
@@ -46,12 +45,13 @@ int main(){
                 char buf1[10];
                 char buf2[10];
                 int val;
-                // cout << child_lines_split.at(j) << endl;
+
                 sscanf(child_lines_split.at(j).c_str(), "%d %s %s", &val, buf1, buf2);
                 string name = string(buf1) + string(buf2);
                 temp_child_bag_names.push_back(name);
                 temp_child_bag_counts.push_back(val);
             }
+
             child_bag_names.push_back(temp_child_bag_names);
             child_bag_counts.push_back(temp_child_bag_counts);
         }
@@ -66,26 +66,19 @@ int main(){
         }
     }
 
-    // for (int i=0; i<child_bag_names.size(); i++){
-    //     vector<string> children = child_bag_names.at(i);
-    //     for (int j=0; j<children.size(); j++){
-    //         cout << children.at(j) << " ";
-    //     }
-    //     cout << endl;
-    // }
-
     // part 1
-    vector<string> search_history;
+    vector<string> search_list_pt1;
     vector<string> next_search_list;
-    search_history.push_back("shinygold");
+    search_list_pt1.push_back("shinygold");
 
     int k = 0;
-    while (k < search_history.size()){
+    while (k < search_list_pt1.size()){
 
-        string search_name = search_history.at(k);
+        
+        string search_name = search_list_pt1.at(k);
         k += 1;
 
-        // find all parent bag names
+        // find all parent bag names of current search child
         for (int i=0; i<child_bag_names.size(); i++){
             vector<string> children = child_bag_names.at(i);
             for (int j=0; j<children.size(); j++){
@@ -101,11 +94,11 @@ int main(){
         int i=0;
         while (i<next_search_list.size()){
                 
-            if (find(search_history.begin(), search_history.end(), next_search_list.at(i)) != search_history.end()){
+            if (find(search_list_pt1.begin(), search_list_pt1.end(), next_search_list.at(i)) != search_list_pt1.end()){
                 next_search_list.erase(next_search_list.begin() + i);
             }
             else{
-                search_history.push_back(next_search_list.at(i));
+                search_list_pt1.push_back(next_search_list.at(i));
                 i++;
             }
         }
@@ -113,7 +106,7 @@ int main(){
         next_search_list.clear();
     }
 
-    cout << "number of colors: " << search_history.size()-1 << endl;
+    cout << "number of colors: " << search_list_pt1.size()-1 << endl;
 
     // part 2
 
