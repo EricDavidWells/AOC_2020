@@ -12,3 +12,4 @@ day05: 33m06s Part 1, 10m 37s Part 2
 day06:  forgot to time...
 day07: ~3 hours............... massive debugging session
 day08: ~45 mins
+day09: ~45 mins........... read about hash tables for awhile
