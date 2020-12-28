@@ -86,3 +86,21 @@ vector<string> string_split(string line, string delim){
 
     return data;
 }
+
+vector<int> find_all_indices(vector<int> data, int key){
+
+    vector<int> indices;
+
+    int ind = 0;
+    while (ind < data.size()){
+        
+        auto itr = std::find(data.begin() + ind, data.end(), key);
+        ind = distance(data.begin(), itr);
+
+        if (itr != data.cend()) {
+            indices.push_back(ind);
+        }
+    }
+
+    return indices;
+}
