@@ -10,5 +10,7 @@ vector<string> input_to_string_vector_delim(string filename, char delim_start, i
 vector<string> string_split(string line, char delim);
 vector<string> string_split(string line, string delim);
 vector<int> find_all_indices(vector<int> data, int key);
+void log_vector(vector<int> data, string delimiter);
+void log_vector(vector<vector<int>> data, string delimiter);
 
 #endif

@@ -104,3 +104,18 @@ vector<int> find_all_indices(vector<int> data, int key){
 
     return indices;
 }
+
+void log_vector(vector<int> data, string delimiter){
+
+    for (int i=0; i<data.size(); i++){
+        cout << data.at(i) << delimiter;
+    }
+    cout << endl;
+
+}
+
+void log_vector(vector<vector<int>> data, string delimiter){
+    for (int i=0; i<data.size(); i++){
+        log_vector(data.at(i), delimiter);
+    }
+}
