@@ -23,7 +23,7 @@ vector<string> input_to_string_vector_delim(string filename, char delim_start, i
         
         string line;
 
-        while(std::getline(file, line)){
+        while(getline(file, line)){
             
             int start_ind = 0;
 
