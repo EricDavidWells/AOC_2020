@@ -55,14 +55,27 @@ vector<string> string_split(string line, char delim){
 
     vector<string> data;
 
-    int num_delims = count(line.begin(), line.end(), delim);
+    // int num_delims = count(line.begin(), line.end(), delim);
+    // int ind1 = 0;
+    // int ind2 = 0;
+    // for (int i=0; i<num_delims; i++){
+    //     ind2 = line.find(delim, ind1);
+    //     data.push_back(line.substr(ind1, ind2-ind1));
+    //     ind1 = ind2;
+    // }
+
+    int num_delims = 0;
     int ind1 = 0;
     int ind2 = 0;
-    for (int i=0; i<num_delims; i++){
-        ind2 = line.find(delim, ind1);
+
+    while ((ind2 = line.find(delim, ind1)) != string::npos){
+
+        num_delims += 1;
         data.push_back(line.substr(ind1, ind2-ind1));
-        ind1 = ind2;
+        ind1 = ind2 + 1;
+
     }
+    data.push_back(line.substr(ind1, line.length()-ind1));
 
     return data;
 }
@@ -118,4 +131,9 @@ void log_vector(vector<vector<int>> data, string delimiter){
     for (int i=0; i<data.size(); i++){
         log_vector(data.at(i), delimiter);
     }
+}
+
+void log_vector(vector<int> data){
+
+    log_vector(data, ",");
 }

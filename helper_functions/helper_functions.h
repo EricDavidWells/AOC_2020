@@ -12,5 +12,6 @@ vector<string> string_split(string line, string delim);
 vector<int> find_all_indices(vector<int> data, int key);
 void log_vector(vector<int> data, string delimiter);
 void log_vector(vector<vector<int>> data, string delimiter);
+void log_vector(vector<int> data);
 
 #endif
