@@ -92,7 +92,7 @@ int main(){
 
         // recursive without lookup table, takes forever.........
 
-        if (i == d){
+        if (i == d){    // if at destination
             pathCount++;
         }
         else{
