@@ -7,7 +7,7 @@ Advent of Code is a yearly collection of small programming puzzles that can be s
 gcc 7.5
 
 # Build/Run
-In bash
+Only tested in linux ubuntu
 
 `git clone https://github.com/EricDavidWells/AOC_2020`\
 `cd AOC_2020`\
