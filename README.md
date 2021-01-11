@@ -1,15 +1,19 @@
 # AOC_2020
+My C++ solutions to Advent of Code 2020
 
-# Self-Recorded Completion Times
-My thesis defense was in the middle so I did all of the days late.........
+Advent of Code is a yearly collection of small programming puzzles that can be solved in any programming language of your chosen. Some people complete the puzzles for interview prep, while others race to get the solution as quick as possible in order to make it on the leaderboards. I was late to the party as my MSc. defense date was in the middle of the competition, so speed wasn't my goal.  I decided to complete all the puzzles at my own pace in C++ to increase my knowledge with the language. This was also my first brush with common programming techniques such as dynamic programming, associative arrays, and graph networks. I really enjoyed the dive into purely programming issues, as the usual problems I tackle are a mix of mechanical, hardware, and software.
 
-day01: ~4 hour
-.............first time using CMake or C++ on linux
-day02: ~1 hour
-day03: ~20 mins
-day04: ~3 hours............. massive debugging session
-day05: 33m06s Part 1, 10m 37s Part 2
-day06:  forgot to time...
-day07: ~3 hours............... massive debugging session
-day08: ~45 mins
-day09: ~45 mins........... read about hash tables for awhile
+# Dependencies
+gcc 7.5
+
+# Build/Run
+Only tested in linux ubuntu
+
+`git clone https://github.com/EricDavidWells/AOC_2020`\
+`cd AOC_2020`\
+`mkdir build`\
+`cd build`\
+`cmake ..`\
+`cd day0x`\
+`make`\
+`./day0x`
