@@ -118,22 +118,32 @@ vector<int> find_all_indices(vector<int> data, int key){
     return indices;
 }
 
-void log_vector(vector<int> data, string delimiter){
-
+template<class T>
+void log_vector(vector<T> data, string delim){
+    
     for (int i=0; i<data.size(); i++){
-        cout << data.at(i) << delimiter;
-    }
-    cout << endl;
-
-}
-
-void log_vector(vector<vector<int>> data, string delimiter){
-    for (int i=0; i<data.size(); i++){
-        log_vector(data.at(i), delimiter);
+        cout << data.at(i) << delim;
     }
 }
 
-void log_vector(vector<int> data){
+template void log_vector<int>(vector<int> data, string delim1);
+template void log_vector<long>(vector<long> data, string delim1);
+template void log_vector<long long>(vector<long long> data, string delim1);
+template void log_vector<string>(vector<string> data, string delim1);
+template void log_vector<float>(vector<float> data, string delim1);
+template void log_vector<double>(vector<double> data, string delim1);
 
-    log_vector(data, ",");
+template<class T>
+void log_vector(vector<vector<T>> data, string delim1, string delim2){
+    for (int i=0; i<data.size(); i++){
+        log_vector(data.at(i), delim1);
+        cout << delim2;
+    }
 }
+
+template void log_vector<int>(vector<vector<int>> data, string delimiter, string delim2);
+template void log_vector<long>(vector<vector<long>> data, string delimiter, string delim2);
+template void log_vector<long long>(vector<vector<long long>> data, string delimiter, string delim2);
+template void log_vector<string>(vector<vector<string>> data, string delimiter, string delim2);
+template void log_vector<float>(vector<vector<float>> data, string delimiter, string delim2);
+template void log_vector<double>(vector<vector<double>> data, string delimiter, string delim2);
