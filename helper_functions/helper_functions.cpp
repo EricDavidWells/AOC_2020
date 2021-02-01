@@ -64,13 +64,11 @@ vector<string> string_split(string line, char delim){
     //     ind1 = ind2;
     // }
 
-    int num_delims = 0;
     int ind1 = 0;
     int ind2 = 0;
 
     while ((ind2 = line.find(delim, ind1)) != string::npos){
 
-        num_delims += 1;
         data.push_back(line.substr(ind1, ind2-ind1));
         ind1 = ind2 + 1;
 
@@ -84,13 +82,11 @@ vector<string> string_split(string line, string delim){
 
     vector<string> data;
 
-    int num_delims = 0;
     int ind1 = 0;
     int ind2 = 0;
 
     while ((ind2 = line.find(delim, ind1)) != string::npos){
 
-        num_delims += 1;
         data.push_back(line.substr(ind1, ind2-ind1));
         ind1 = ind2 + delim.length();
 
