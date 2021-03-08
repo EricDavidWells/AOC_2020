@@ -10,47 +10,62 @@
 
 using namespace std;
 
+
 class Ingredient {
 public:
     string name;
     string allergen;
 };
 
+
 class Allergen {
 public:
     string name;
     string ingredient;
+    bool operator< (const Allergen& other) const {
+        return name < other.name;
+    }
 };
 
+// holds all foods (lines) from the input, with each ingredient pointing at an Ingredient object
+// and each allergen pointing at an Allergen object
 class Food {
 public:
-    vector<string> ingredients;
-    vector<string> allergens;
+    vector<Ingredient*> ings;
+    vector<Allergen*> als;
 
     void display() {
-        log_vector(ingredients, ",");
-        cout << "contains: ";
-        log_vector(allergens, ",");
+    
+        for (auto ing : ings) {
+            cout << ing->name << ",";
+        }
+
+        for (auto all : als) {
+            cout << all->name << ",";
+        }
+
         cout << endl;
     }
 };
 
+vector<Food> foods_containing_allergen(vector<Food>& foods, Allergen& allergen);
+void check_foods_for_common_ingredients(vector<Food>& foods, Allergen& allergen);
+bool check_if_all_allergens_found(vector<Allergen>& allergens);
+int count_nonallergy_ingredients(vector<Food>& foods);
+
+
 int main(){
     
-    map<Ingredient, Allergen> ing_to_allergen_map;
+    vector<Ingredient> ingredients(1000);
+    vector<Allergen> allergens(1000);
+    vector<Food> foods;
 
-    map<string, vector<vector<string>>> allergen_list;
-
-    vector<Ingredient> ingredients;
-    vector<Allergen> allergens;
-
-    //vector<Food> foods;
-
-    string filename = "../../data/day21input_example.txt";
+    string filename = "../../data/day21input.txt";
     ifstream file;
     file.open(filename);
 
-
+    int ing_count = 0;
+    int all_count = 0;
     if (file.is_open()) {
         string line;
         while (getline(file, line)) {
@@ -62,12 +77,6 @@ int main(){
             vector<string> ing_list = string_split(line.substr(0, ind1 - 1), ' ');
             vector<string> allergen_list = string_split(line.substr(ind2 + 9, ind3-(ind2 + 9)), ',');
 
-            //(contains dairy, soy)
-            //012345678901234567890
-            //0         1         2
-            //ind1 = 0; ind2 = 1; ind3 = 20;
-            //10 ----> 10 long
-
             for (string ing : ing_list) {
                 
                 auto it = find_if(ingredients.begin(), ingredients.end(), [ing](Ingredient X) {return X.name == ing; });
@@ -75,7 +84,13 @@ int main(){
                 if (it == ingredients.end()) {
                     Ingredient new_ing;
                     new_ing.name = ing;
-                    ingredients.push_back(new_ing);
+                    ingredients.at(ing_count) = new_ing;
+
+                    food.ings.push_back(&ingredients.at(ing_count));
+                    ing_count++;
+                }
+                else {
+                    food.ings.push_back(&(*it));
                 }
             }
 
@@ -88,55 +103,150 @@ int main(){
                 if (it == allergens.end()) {
                     Allergen new_allergen;
                     new_allergen.name = allergen;
-                    allergens.push_back(new_allergen);
+                    allergens.at(all_count) = new_allergen;
+
+                    food.als.push_back(&allergens.at(all_count));
+                    all_count++;
+
+                }
+                else {
+                    food.als.push_back(&(*it));
                 }
             }
-        }
-    }
 
-   /* for (Food f : foods) {
-        f.display();
-    }*/
+            foods.push_back(food);
+        }
+
+        ingredients.erase(ingredients.begin() + ing_count, ingredients.end());
+        allergens.erase(allergens.begin() + all_count, allergens.end());
+    }
 
     cout << "Ingredient List:" << endl;
     for (Ingredient i : ingredients) {
-        cout << i.name << endl;
+
+        if (!i.name.empty()) {
+            cout << i.name << endl;
+        }
     }
 
     cout << "Allergen List:" << endl;
     for (Allergen a : allergens) {
-        cout << a.name << endl;
+        if (!a.name.empty()) {
+            cout << a.name << endl;
+        }
     }
 
+    cout << "Food List: " << endl;
+    for(auto food:foods) {
+        food.display();
+    }
 
-    /*int ind = 0;
-    auto it = allergen_list.begin();
+    bool all_allergens_found = false;
 
-    while (ind < allergen_list.size()) {
-        string allergen = it->first;
-        vector<vector<string>> ingredient_list = it->second;
+    while (!all_allergens_found) {
+        for (auto &allergen : allergens) {
 
-        map<string, int> ing_count_map;
-
-        for (int i = 0; i < ingredient_list.size; i++) {
-            for (int j = 0; j < ingredient_list.at(i).size(); j++) {
-                ing_count_map[ingredient_list.at(i).at(j)] += 1;
+            if (allergen.ingredient.empty()) {
+                vector<Food> sub_foods = foods_containing_allergen(foods, allergen);
+                check_foods_for_common_ingredients(sub_foods, allergen);
+                all_allergens_found = check_if_all_allergens_found(allergens);
             }
+
+            
+
+            /*cout << "Food list containing allergen: " << allergen.name << endl;
+            for (auto food : sub_foods) {
+                food.display();
+            }*/
         }
+    }
 
-        using pair_type = decltype(ing_count_map)::value_type;
+    cout << "Part 1 Answer: " << count_nonallergy_ingredients(foods) << endl;
 
-        auto pr = std::max_element
-        (
-            std::begin(ing_count_map), std::end(ing_count_map),
-            [](const pair_type& p1, const pair_type& p2) {
-            return p1.second < p2.second;
-        }
-        );
-
-        cout << pr->first << endl;
-        it++;*/
-    //}
+    cout << "All Allergens Found:" << endl;
+    sort(allergens.begin(), allergens.end());
+    for (auto allergen : allergens) {
+        cout << allergen.ingredient << ",";
+    }
 
     return 0;
+}
+
+vector<Food> foods_containing_allergen(vector<Food> &foods, Allergen &allergen) {
+    
+    vector<Food> sub_foods;
+    for (auto food : foods) {
+        
+        if (find(food.als.begin(), food.als.end(), &allergen) != food.als.end()) {
+            sub_foods.push_back(food);
+        }
+    }
+    return sub_foods;
+}
+
+void check_foods_for_common_ingredients(vector<Food>& foods, Allergen& allergen){
+
+    map<Ingredient*, int> count_map;
+
+    // count number of igredients
+    for (auto &food : foods) {
+        for (auto ingredient : food.ings) {
+            if (ingredient->allergen.empty()) {
+                count_map[ingredient] += 1;
+            }
+        }
+    }
+
+    // get max count value
+    int max_value = 0;
+    for (auto item : count_map) {
+        max_value = max(item.second, max_value);
+    }
+
+    // make sure there is only one num of maxes
+    int num_of_maxes = 0;
+    Ingredient* max_ing;
+
+    //auto iter = count_map.begin();
+    auto iter = std::find_if(count_map.begin(), count_map.end(), [max_value](pair<Ingredient*, int> x) {return x.second == max_value; });
+
+    while (iter != count_map.end())
+    {
+        max_ing = iter->first;
+        num_of_maxes++;
+        iter++;
+        iter = std::find_if(iter, count_map.end(), [max_value](pair<Ingredient*, int> x) {return x.second == max_value; });
+    }
+
+    if (num_of_maxes > 1) {
+        return;
+    }
+    else {
+        allergen.ingredient = max_ing->name;
+        max_ing->allergen = allergen.name;
+        return;
+    }
+}
+
+bool check_if_all_allergens_found(vector<Allergen>& allergens) {
+    
+    for (auto allergen : allergens) {
+        if (allergen.ingredient.empty()) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int count_nonallergy_ingredients(vector<Food>& foods) {
+
+    int count = 0;
+    for (auto& food : foods) {
+        for (auto ingredient : food.ings) {
+            if (ingredient->allergen.empty()) {
+                count++;
+            }
+        }
+    }
+    return count;
 }
