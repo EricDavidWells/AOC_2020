@@ -4,6 +4,7 @@
 #include <vector>
 #include <deque>
 #include <map>
+#include <unordered_map>
 #include <cstring>
 #include "helper_functions.h"
 #include <algorithm>
@@ -136,38 +137,25 @@ int main() {
 // returns true for a player 1 win, false for a player 2 win
 bool play_recursive_combat(Deck &p1_deck, Deck &p2_deck) {
 
-	vector<Deck> p1_deck_history;
-	vector<Deck> p2_deck_history;
+	/*vector<Deck> p1_deck_history;
+	vector<Deck> p2_deck_history;*/
+
+	map<deque<char*>, bool> p1_deck_history_map;
+	map<deque<char*>, bool> p2_deck_history_map;
+
 
 	// loop while cards remain
 	while (p1_deck.cards.size() > 0 && p2_deck.cards.size() > 0) {
 
 		// check histories
-		bool p1_history_flag = false;
-		bool p2_history_flag = false;
-		if (p1_deck_history.size() > 0) {
-			for (Deck deck : p1_deck_history) {
-				if (deck.cards == p1_deck.cards) {
-					p1_history_flag = true;
-					break;
-				}
-			}
-
-			for (Deck deck : p2_deck_history) {
-				if (deck.cards == p2_deck.cards) {
-					p2_history_flag = true;
-					break;
-				}
-			}
-
-			if (p1_history_flag && p2_history_flag) {
-				return true;
-			}
+		if (p1_deck_history_map[p1_deck.cards] && p2_deck_history_map[p2_deck.cards]) {
+			return true;
 		}
-		
-		p1_deck_history.push_back(p1_deck);
-		p2_deck_history.push_back(p2_deck);
 
+		p1_deck_history_map[p1_deck.cards] = true;
+		p2_deck_history_map[p2_deck.cards] = true;
+
+		// draw cards
 		char* p1_card = p1_deck.cards.front();
 		char* p2_card = p2_deck.cards.front();
 
