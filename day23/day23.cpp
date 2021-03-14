@@ -8,11 +8,9 @@
 #include <cstring>
 #include "helper_functions.h"
 #include <algorithm>
-#include <boost/circular_buffer.hpp>
 #include <list>
 
 using namespace std;
-using namespace boost;
 
 int get_destination_value(int start_value, int min_value, int max_value, vector<int> &not_allowed_values);
 
