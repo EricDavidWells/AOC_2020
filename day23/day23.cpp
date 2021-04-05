@@ -14,7 +14,6 @@ using namespace std;
 
 int get_destination_value(int start_value, int min_value, int max_value, vector<int> &not_allowed_values);
 
-
 class Cup
 {
 public:
