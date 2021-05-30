@@ -17,3 +17,4 @@ Only tested in linux ubuntu
 `cd day0x`\
 `make`\
 `./day0x`
+
